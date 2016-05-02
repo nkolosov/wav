@@ -2,6 +2,7 @@
 
 namespace Wav;
 
+use Binary\Helper;
 use Wav\Exception\DirectoryIsNotWritableException;
 
 /**
@@ -95,9 +96,9 @@ class AudioFile
      */
     protected function writeHeader($handle)
     {
-        fwrite($handle, pack('a*', $this->header->getId()));
-        fwrite($handle, pack('V', $this->header->getSize()));
-        fwrite($handle, pack('a*', $this->header->getFormat()));
+        Helper::writeString($handle, $this->header->getId());
+        Helper::writeLong($handle, $this->header->getSize());
+        Helper::writeString($handle, $this->header->getFormat());
     }
 
     /**
@@ -105,14 +106,14 @@ class AudioFile
      */
     protected function writeFormatSection($handle)
     {
-        fwrite($handle, pack('a*', $this->formatSection->getId()));
-        fwrite($handle, pack('V', $this->formatSection->getSize()));
-        fwrite($handle, pack('v', $this->formatSection->getAudioFormat()));
-        fwrite($handle, pack('v', $this->formatSection->getNumberOfChannels()));
-        fwrite($handle, pack('V', $this->formatSection->getSampleRate()));
-        fwrite($handle, pack('V', $this->formatSection->getByteRate()));
-        fwrite($handle, pack('v', $this->formatSection->getBlockAlign()));
-        fwrite($handle, pack('v', $this->formatSection->getBitsPerSample()));
+        Helper::writeString($handle, $this->formatSection->getId());
+        Helper::writeLong($handle, $this->formatSection->getSize());
+        Helper::writeWord($handle, $this->formatSection->getAudioFormat());
+        Helper::writeWord($handle, $this->formatSection->getNumberOfChannels());
+        Helper::writeLong($handle, $this->formatSection->getSampleRate());
+        Helper::writeLong($handle, $this->formatSection->getByteRate());
+        Helper::writeWord($handle, $this->formatSection->getBlockAlign());
+        Helper::writeWord($handle, $this->formatSection->getBitsPerSample());
     }
 
     /**
@@ -120,9 +121,9 @@ class AudioFile
      */
     protected function writeDataSection($handle)
     {
-        fwrite($handle, pack('a*', $this->dataSection->getId()));
-        fwrite($handle, pack('V', $this->dataSection->getSize()));
-        
+        Helper::writeString($handle, $this->dataSection->getId());
+        Helper::writeLong($handle, $this->dataSection->getSize());
+
         foreach ($this->getSamples() as $sample) {
             fwrite($handle, $sample->getData());
         }

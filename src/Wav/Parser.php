@@ -8,6 +8,7 @@
 namespace Wav;
 
 
+use Binary\Helper;
 use Wav\Exception\FileIsNotExistsException;
 use Wav\Exception\FileIsNotReadableException;
 use Wav\Exception\FileIsNotWavFileException;
@@ -65,9 +66,9 @@ class Parser
     protected static function parseHeader($handle)
     {
         return [
-            'id' => self::readString($handle, 4),
-            'size' => self::readLong($handle),
-            'format' => self::readString($handle, 4),
+            'id'     => Helper::readString($handle, 4),
+            'size'   => Helper::readLong($handle),
+            'format' => Helper::readString($handle, 4),
         ];
     }
 
@@ -78,14 +79,14 @@ class Parser
     protected static function parseFormatSection($handle)
     {
         return [
-            'id' => self::readString($handle, 4),
-            'size' => self::readLong($handle),
-            'audioFormat' => self::readWord($handle),
-            'numberOfChannels' => self::readWord($handle),
-            'sampleRate' => self::readLong($handle),
-            'byteRate' => self::readLong($handle),
-            'blockAlign' => self::readWord($handle),
-            'bitsPerSample' => self::readWord($handle),
+            'id'               => Helper::readString($handle, 4),
+            'size'             => Helper::readLong($handle),
+            'audioFormat'      => Helper::readWord($handle),
+            'numberOfChannels' => Helper::readWord($handle),
+            'sampleRate'       => Helper::readLong($handle),
+            'byteRate'         => Helper::readLong($handle),
+            'blockAlign'       => Helper::readWord($handle),
+            'bitsPerSample'    => Helper::readWord($handle),
         ];
     }
 
@@ -97,8 +98,8 @@ class Parser
     protected static function parseDataSection($handle)
     {
         $data = [
-            'id' => self::readString($handle, 4),
-            'size' => self::readLong($handle),
+            'id' => Helper::readString($handle, 4),
+            'size' => Helper::readLong($handle),
         ];
 
         if ($data['size'] > 0) {
@@ -107,51 +108,4 @@ class Parser
 
         return $data;
     }
-
-    /**
-     * @param resource $handle
-     * @param int      $length
-     *
-     * @return string
-     */
-    protected static function readString($handle, $length)
-    {
-        return self::readUnpacked($handle, 'a*', $length);
-    }
-
-    /**
-     * @param resource $handle
-     *
-     * @return int
-     */
-    protected static function readLong($handle)
-    {
-        return self::readUnpacked($handle, 'V', 4);
-    }
-
-    /**
-     * @param resource $handle
-     *
-     * @return int
-     */
-    protected static function readWord($handle)
-    {
-        return self::readUnpacked($handle, 'v', 2);
-    }
-
-    /**
-     * @param resource $handle
-     * @param string   $type
-     * @param int      $length
-     *
-     * @return mixed
-     */
-    protected function readUnpacked($handle, $type, $length)
-    {
-        $data = unpack($type, fread($handle, $length));
-
-        return array_pop($data);
-    }
-
-
 }
