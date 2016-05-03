@@ -10,7 +10,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendo
 $sampleBuilder = new \Wav\SampleBuilder(\Wav\Generator\AcousticGuitar::NAME);
 
 $samples = [
-    /*$sampleBuilder->note('E', 5, 0.3),
+    $sampleBuilder->note('E', 5, 0.3),
     $sampleBuilder->note('D#', 5, 0.3),
     $sampleBuilder->note('E', 5, 0.3),
     $sampleBuilder->note('D#', 5, 0.3),
@@ -18,8 +18,7 @@ $samples = [
     $sampleBuilder->note('H', 4, 0.3),
     $sampleBuilder->note('D', 5, 0.3),
     $sampleBuilder->note('C', 5, 0.3),
-    $sampleBuilder->note('A', 4, 1),*/
-    $sampleBuilder->note('A', 4, 2)
+    $sampleBuilder->note('A', 4, 1),
 ];
 
 $builder = (new Wav\Builder())
@@ -33,6 +32,3 @@ $builder = (new Wav\Builder())
 
 $audio = $builder->build();
 $audio->saveToFile(__DIR__ . DIRECTORY_SEPARATOR . 'example.wav');
-
-
-//header('Content-Type: audio/wav');

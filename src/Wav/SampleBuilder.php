@@ -8,6 +8,7 @@
 namespace Wav;
 
 
+use Binary\Helper;
 use Wav\Generator\Generator;
 
 class SampleBuilder
@@ -116,8 +117,8 @@ class SampleBuilder
                         $i
                 );
 
-            $result[$i << 1]       = pack('c', $value);
-            $result[($i << 1) + 1] = pack('c', $value >> 8);
+            $result[$i << 1]       = Helper::packChar($value);
+            $result[($i << 1) + 1] = Helper::packChar($value >> 8);
         }
 
         for (; $i < $decayLength; $i++) {
@@ -130,8 +131,8 @@ class SampleBuilder
                         $i
                 );
 
-            $result[$i << 1]       = pack('c', $value);
-            $result[($i << 1) + 1] = pack('c', $value >> 8);
+            $result[$i << 1]       = Helper::packChar($value);
+            $result[($i << 1) + 1] = Helper::packChar($value >> 8);
         }
 
         return new Sample($result->getSize(), implode('', $result->toArray()));

@@ -90,6 +90,32 @@ class AudioFile
 
         fclose($handle);
     }
+    
+    public function returnContent()
+    {
+        header('Content-Type: audio/wav');
+
+        //return header
+        echo Helper::packString($this->header->getId());
+        echo Helper::packLong($this->header->getSize());
+        echo Helper::packString($this->header->getFormat());
+
+        //return format
+        echo Helper::packString($this->formatSection->getId());
+        echo Helper::packLong($this->formatSection->getSize());
+        echo Helper::packWord($this->formatSection->getAudioFormat());
+        echo Helper::packWord($this->formatSection->getNumberOfChannels());
+        echo Helper::packLong($this->formatSection->getSampleRate());
+        echo Helper::packLong($this->formatSection->getByteRate());
+        echo Helper::packWord($this->formatSection->getBlockAlign());
+        echo Helper::packWord($this->formatSection->getBitsPerSample());
+
+        echo Helper::packString($this->dataSection->getId());
+        echo Helper::packLong($this->dataSection->getSize());
+        echo Helper::packString($this->dataSection->getRaw());
+
+        exit;
+    }
 
     /**
      * @param resource $handle

@@ -22,6 +22,16 @@ class Helper
     }
 
     /**
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    public static function packString($data)
+    {
+        return self::pack('a*', $data);
+    }
+
+    /**
      * @param resource $handle
      * @param mixed    $data
      *
@@ -40,6 +50,16 @@ class Helper
     public static function readLong($handle)
     {
         return self::readUnpacked($handle, 'V', 4);
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    public static function packLong($data)
+    {
+        return self::pack('V', $data);
     }
 
     /**
@@ -64,6 +84,16 @@ class Helper
     }
 
     /**
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    public static function packWord($data)
+    {
+        return self::pack('v', $data);
+    }
+
+    /**
      * @param resource $handle
      * @param mixed $data
      *
@@ -72,6 +102,16 @@ class Helper
     public static function writeWord($handle, $data)
     {
         return self::writeUnpacked($handle, 'v', $data);
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    public static function packChar($data)
+    {
+        return self::pack('c', $data);
     }
 
     /**
@@ -97,6 +137,17 @@ class Helper
      */
     protected function writeUnpacked($handle, $type, $data)
     {
-        return fwrite($handle, pack($type, $data));
+        return fwrite($handle, self::pack($type, $data));
+    }
+
+    /**
+     * @param string $type
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    protected function pack($type, $data)
+    {
+        return pack($type, $data);
     }
 }
