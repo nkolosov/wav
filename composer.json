@@ -2,7 +2,7 @@
   "name": "nkolosov/wav",
   "description": "Simple PHP library for creating and handling WAV audio files",
   "minimum-stability": "stable",
-  "license": "MIT License/X11 license",
+  "license": "MIT License",
   "authors": [
     {
       "name": "Nikita Kolosov",
