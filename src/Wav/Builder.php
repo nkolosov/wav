@@ -14,6 +14,10 @@ use Wav\File\Header;
 
 class Builder
 {
+    const DEFAULT_SAMPLE_RATE = 44100;
+
+    const DEFAULT_VOLUME = 32768;
+
     /**
      * @var int
      */

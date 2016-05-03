@@ -53,7 +53,7 @@ class AudioFile
     /**
      * @return Sample[]
      */
-    public function getSamples()
+    public function getAsSamples()
     {
         if (!$this->samples) {
             $raw          = $this->dataSection->getRaw();
@@ -123,12 +123,7 @@ class AudioFile
     {
         Helper::writeString($handle, $this->dataSection->getId());
         Helper::writeLong($handle, $this->dataSection->getSize());
-
-        foreach ($this->getSamples() as $sample) {
-            fwrite($handle, $sample->getData());
-        }
-        
-        fwrite($handle, $this->dataSection->getRaw());
+        Helper::writeString($handle, $this->dataSection->getRaw());
     }
 
     /**
